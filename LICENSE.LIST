@@ -1,0 +1,27 @@
+# 依赖协议清单 (LICENSE.LIST)
+> 本文件由 AI 助手自动生成，记录项目所有直接依赖的协议信息。
+> 生成时间：2026-03-19
+> 审计工具：AI 依赖协议审计 (https://tpscsm-docs.pages.dev/license-audit/)
+
+## 统计摘要
+
+| 协议类型 | 数量 | 风险等级 |
+|---------|------|---------|
+| MIT-CMU | 1 | ✅ 低风险 |
+| MIT | 2 | ✅ 低风险 |
+| BSD-3-Clause AND 0BSD AND MIT AND Zlib AND CC0-1.0 | 1 | ✅ 低风险 |
+| Apache-2.0 AND LGPL-2.1 | 1 | ⚠️ 需关注 |
+| Apache-2.0 | 1 | ✅ 低风险 |
+
+**总计：** 6 个直接依赖
+
+## 依赖详情
+
+| 序号 | 依赖名称 | 版本 | 协议 (SPDX) | 来源 | 风险 | 备注 |
+|------|---------|------|-------------|------|------|------|
+| 1 | Pillow | >=10.0.0 | MIT-CMU | https://pypi.org/project/Pillow/ | ✅ | 宽松协议，兼容 MIT |
+| 2 | rembg | >=2.0.50 | MIT | https://pypi.org/project/rembg/ | ✅ | |
+| 3 | onnxruntime | >=1.16.0 | MIT | https://pypi.org/project/onnxruntime/ | ✅ | |
+| 4 | numpy | >=1.24.0 | BSD-3-Clause AND 0BSD AND MIT AND Zlib AND CC0-1.0 | https://pypi.org/project/numpy/ | ✅ | 多协议组合，均为宽松协议 |
+| 5 | opencv-python | >=4.8.0 | Apache-2.0 (wrapper) / LGPL-2.1 (FFmpeg bundled) | https://pypi.org/project/opencv-python/ | ⚠️ | 核心 OpenCV 为 Apache-2.0，预编译 wheel 捆绑 FFmpeg (LGPL-2.1)、Qt (LGPL-3.0)；动态链接可豁免 Copyleft |
+| 6 | huggingface_hub | >=0.20.0 | Apache-2.0 | https://pypi.org/project/huggingface-hub/ | ✅ | 需保留版权声明 |

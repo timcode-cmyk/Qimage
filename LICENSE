@@ -1,0 +1,105 @@
+# 项目协议合规报告
+> 本文件由 AI 助手自动生成，旨在帮助了解项目的协议合规情况。
+> 本文件为合规参考，不构成法律建议。如有疑问请咨询法律专业人士。
+> 生成时间：2026-03-19
+> 审计工具：AI 依赖协议审计 (https://tpscsm-docs.pages.dev/license-audit/)
+
+## 项目协议
+
+MIT License
+
+Copyright (c) 2026 Qimage Contributors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+## 版权协议合规结论
+
+> 本结论基于项目协议与所有直接依赖协议的兼容性分析，以开源分发为前提。
+
+### ✅ 合规 — 可开源分发
+
+项目协议 `MIT` 与所有 6 个直接依赖的协议兼容，满足开源分发要求。
+
+分发时须满足以下义务：
+- **Pillow (MIT-CMU)**：保留原始版权声明
+- **rembg (MIT)**：保留原始版权声明
+- **onnxruntime (MIT)**：保留原始版权声明
+- **numpy (BSD-3-Clause AND ...)**：保留版权声明，不得使用原项目名称做背书
+- **opencv-python (Apache-2.0 / LGPL-2.1)**：保留 NOTICE 文件和版权声明；捆绑 FFmpeg/Qt (LGPL)，需符合动态链接要求（通常预编译 wheel 已满足）
+- **huggingface_hub (Apache-2.0)**：保留原始版权声明和 NOTICE 文件（如有）
+
+---
+
+## 依赖协议摘要
+
+- 宽松协议 (MIT/MIT-CMU/BSD)：4 个 — ✅ 无特殊限制
+- Apache-2.0：2 个 — ✅ 需保留版权声明和 NOTICE 文件
+- 弱 Copyleft (LGPL-2.1，通过 opencv-python 的 FFmpeg 捆绑)：1 个 — ⚠️ 动态链接可豁免，预编译 wheel 通常已满足
+
+---
+
+## 协议兼容性详情
+
+基于项目协议 `MIT` 与各依赖协议的逐项判定：
+
+### ✅ 兼容的依赖
+
+| 依赖名称 | 依赖协议 | 兼容性 | 分发义务 |
+|---------|---------|--------|---------|
+| Pillow | MIT-CMU | ✅ 兼容 | 保留版权声明 |
+| rembg | MIT | ✅ 兼容 | 保留版权声明 |
+| onnxruntime | MIT | ✅ 兼容 | 保留版权声明 |
+| numpy | BSD-3-Clause AND 0BSD AND MIT AND Zlib AND CC0-1.0 | ✅ 兼容 | 保留版权声明，不得使用 NumPy 名义背书 |
+| huggingface_hub | Apache-2.0 | ✅ 兼容 | 保留版权声明，分发需附带 Apache-2.0 协议文本 |
+
+### ⚠️ 有条件兼容的依赖
+
+| 依赖名称 | 依赖协议 | 条件 | 当前使用方式是否满足 |
+|---------|---------|------|-------------------|
+| opencv-python | Apache-2.0 (核心) / LGPL-2.1 (FFmpeg) / LGPL-3.0 (Qt) | 动态链接即可豁免 LGPL Copyleft 义务 | ✅ 预编译 wheel 使用动态链接（通常满足） |
+
+---
+
+## 第三方协议声明
+
+### MIT License
+以下组件使用 MIT 相关协议：
+- **Pillow** (>=10.0.0) — MIT-CMU License — https://pillow.readthedocs.io/en/stable/about.html#license
+- **rembg** (>=2.0.50) — MIT License — https://github.com/danielgatis/rembg/blob/main/LICENSE.txt
+- **onnxruntime** (>=1.16.0) — MIT License — https://github.com/microsoft/onnxruntime/blob/main/LICENSE
+
+### BSD License
+以下组件使用 BSD 相关协议：
+- **numpy** (>=1.24.0) — BSD-3-Clause AND 0BSD AND MIT AND Zlib AND CC0-1.0 — https://github.com/numpy/numpy/blob/main/LICENSE.txt
+
+### Apache License 2.0
+以下组件使用 Apache-2.0 协议：
+- **opencv-python** (>=4.8.0) — Apache-2.0 (核心), LGPL-2.1 (FFmpeg 捆绑) — https://github.com/opencv/opencv-python/blob/master/LICENSE.txt
+- **huggingface_hub** (>=0.20.0) — Apache-2.0 — https://github.com/huggingface/huggingface_hub/blob/main/LICENSE
+
+---
+
+## 风险提示与建议
+
+1. **opencv-python 的 LGPL 组件**：预编译 wheel 中捆绑了 FFmpeg（LGPL-2.1）和 Qt（LGPL-3.0）。以动态链接方式使用（默认 wheel 已是动态链接）可豁免 Copyleft 要求，无需强制开源。如有顾虑，可使用 `opencv-python-headless` 减少捆绑组件。
+2. **Apache-2.0 的专利授权**：`opencv-python` 和 `huggingface_hub` 使用 Apache-2.0，该协议包含明确的专利授权条款，对专利诉讼有保护作用。
+3. 建议定期重新审计依赖协议（可使用本审计工具的 Skill 功能自动检查）。
+4. 如有法律疑问，请咨询专业法律顾问。
