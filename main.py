@@ -170,12 +170,13 @@ def process_video_matting(
     output_dir: str | Path,
     model_name: str = "isnet-general-use",
     with_depth: bool = False,
+    depth_smooth: float = 0.7,
 ) -> None:
     """
-    视频抠像 + 绿幕合成，可选输出每帧深度图。
-    支持单文件或文件夹。
+    视频处理：绿幕抠像 或 深度视频。
+    with_depth=True 时输出深度合成视频，否则输出绿幕视频。
     """
-    from video_processor import process_video
+    from video_processor import process_video, process_video_depth
 
     output_path = Path(output_dir)
     output_path.mkdir(parents=True, exist_ok=True)
@@ -188,16 +189,14 @@ def process_video_matting(
 
     for i, file_path in enumerate(files, 1):
         try:
-            out_video = output_path / f"{file_path.stem}_greenscreen.mp4"
-            depth_dir = output_path / f"{file_path.stem}_depth" if with_depth else None
-            print(f"[{i}/{total}] 处理视频: {file_path.name}")
-            process_video(
-                file_path,
-                out_video,
-                model_name=model_name,
-                enable_depth=with_depth,
-                depth_output_dir=depth_dir,
-            )
+            if with_depth:
+                out_video = output_path / f"{file_path.stem}_depth.mp4"
+                print(f"[{i}/{total}] 生成深度视频: {file_path.name}")
+                process_video_depth(file_path, out_video, smooth_alpha=depth_smooth)
+            else:
+                out_video = output_path / f"{file_path.stem}_greenscreen.mp4"
+                print(f"[{i}/{total}] 处理绿幕视频: {file_path.name}")
+                process_video(file_path, out_video, model_name=model_name)
         except Exception as e:
             print(f"失败: {e}")
 
@@ -238,7 +237,14 @@ def main() -> None:
         "--depth",
         action="store_true",
         dest="video_with_depth",
-        help="视频模式下同时输出每帧深度图",
+        help="视频模式下输出深度视频（合成深度图视频，而非绿幕）",
+    )
+    parser.add_argument(
+        "--smooth",
+        type=float,
+        default=0.7,
+        metavar="ALPHA",
+        help="深度视频时序平滑强度 0~1，默认 0.7，设为 0 关闭（仅 --depth 时有效）",
     )
     args = parser.parse_args()
 
@@ -247,7 +253,13 @@ def main() -> None:
     elif args.mode == "depth":
         process_depth(args.input, args.output)
     elif args.mode == "video":
-        process_video_matting(args.input, args.output, args.model, args.video_with_depth)
+        process_video_matting(
+            args.input,
+            args.output,
+            args.model,
+            args.video_with_depth,
+            depth_smooth=args.smooth,
+        )
 
 
 if __name__ == "__main__":

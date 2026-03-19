@@ -41,6 +41,18 @@ def _get_model_path() -> Path:
         return model_path
 
 
+def _get_onnx_providers() -> list[str]:
+    """根据平台选择最佳 ONNX 执行提供者。macOS 用 CoreML 加速，NVIDIA 用 CUDA。"""
+    available = ort.get_available_providers()
+    providers = []
+    if "CoreMLExecutionProvider" in available:
+        providers.append("CoreMLExecutionProvider")  # macOS GPU/ANE 加速
+    if "CUDAExecutionProvider" in available:
+        providers.append("CUDAExecutionProvider")   # NVIDIA GPU
+    providers.append("CPUExecutionProvider")
+    return providers
+
+
 class DepthEstimator:
     """Intel MiDaS 深度估计器，纯 ONNX Runtime，输出灰度深度图。"""
 
@@ -48,7 +60,7 @@ class DepthEstimator:
         if model_path is None:
             model_path = _get_model_path()
         self.model_path = Path(model_path)
-        providers = ["CUDAExecutionProvider", "CPUExecutionProvider"]
+        providers = _get_onnx_providers()
         self.session = ort.InferenceSession(
             str(self.model_path),
             sess_options=ort.SessionOptions(),

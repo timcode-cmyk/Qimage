@@ -5,8 +5,8 @@
 ## 功能
 
 1. **图片去背** - 去除背景，支持透明或绿幕/蓝幕合成  
-2. **深度估计** - 基于 ONNX Runtime 的 Depth Anything 模型，输出灰度深度图  
-3. **视频抠像** - 逐帧去背并合成绿幕，可选输出每帧深度图  
+2. **深度估计** - 基于 Intel MiDaS ONNX，输出灰度深度图  
+3. **视频抠像** - 绿幕合成 或 深度视频（含时序平滑）  
 4. **灵活输入** - 支持单个文件或整个文件夹
 
 ## 安装
@@ -33,7 +33,7 @@ python main.py -i <输入路径> -o <输出目录> [-m 模式]
 |------|------|------|
 | `matting` | 图片去背，合成背景 | `python main.py -i images/ -o out -m matting -c green` |
 | `depth` | 深度估计，输出灰度深度图 | `python main.py -i photo.jpg -o out -m depth` |
-| `video` | 视频抠像 + 绿幕合成 | `python main.py -i clip.mp4 -o out -m video` |
+| `video` | 绿幕抠像 或 深度视频 | `python main.py -i clip.mp4 -o out -m video [--depth]` |
 
 ### 示例
 
@@ -47,8 +47,11 @@ python main.py -i ./photos -o ./output -c transparent
 # 深度估计（单文件或文件夹）
 python main.py -i ./images -o ./depth_out -m depth
 
-# 视频抠像 + 绿幕，并输出每帧深度图
+# 深度视频（灰度深度图合成为视频，含时序平滑）
 python main.py -i video.mp4 -o ./video_out -m video --depth
+
+# 绿幕抠像视频
+python main.py -i video.mp4 -o ./video_out -m video
 
 # 人像模式 + 二次修复
 python main.py -i portraits/ -o out -m matting -c green --refine --model u2net_human_seg
@@ -61,7 +64,7 @@ python main.py -i portraits/ -o out -m matting -c green --refine --model u2net_h
 | `-c, --color` | 背景颜色：`transparent`, `green`, `blue`, `white`, `black`（仅 matting） |
 | `--model` | rembg 模型（matting/video） |
 | `--refine` | 人像二次修复（仅 matting） |
-| `--depth` | 视频模式下输出每帧深度图 |
+| `--depth` | 视频模式下输出深度视频（灰度深度图合成，含时序平滑） |
 
 ## 深度模型
 
